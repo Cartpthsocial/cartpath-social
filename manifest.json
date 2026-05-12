@@ -1,0 +1,48 @@
+{
+  "name": "Cartpath Social",
+  "short_name": "Cartpath",
+  "description": "NWA Indoor Golf Simulator — Lowell, AR",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#005837",
+  "background_color": "#005837",
+  "lang": "en-US",
+  "categories": ["sports", "entertainment"],
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Reserve a Bay",
+      "short_name": "Reserve",
+      "url": "https://app.birrdi.com/u/browse/reserve?team_booking_link_id=cartpath-social",
+      "description": "Book a simulator bay now"
+    },
+    {
+      "name": "View Hours",
+      "short_name": "Hours",
+      "url": "/?screen=hours",
+      "description": "Check today's hours"
+    }
+  ],
+  "screenshots": []
+}
