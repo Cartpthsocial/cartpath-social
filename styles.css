@@ -203,14 +203,12 @@ svg { display: block; }
   text-align: center;
   background: var(--green);
 }
-.wordmark {
-  font-family: 'Newake', 'Impact', 'Arial Black', sans-serif;
-  font-size: clamp(38px, 10vw, 52px);
-  font-weight: 400;
-  color: var(--yellow);
-  line-height: 1.05;
-  letter-spacing: -.5px;
-  margin-bottom: 8px;
+.hero-logo {
+  width: min(280px, 80vw);
+  height: auto;
+  display: block;
+  margin: 0 auto 12px;
+  filter: drop-shadow(0 4px 16px rgba(0,0,0,.25));
 }
 .tagline {
   font-size: 13px;

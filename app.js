@@ -2,13 +2,13 @@
 
 /* ─── Hours schedule (index 0 = Sunday … 6 = Saturday) ─────────────────────── */
 const SCHEDULE = [
-  { day: 'Sunday',    label: 'Sun', open: '9AM',  close: '9PM', openH: 9,  closeH: 21 },
+  { day: 'Sunday',    label: 'Sun', open: '12PM', close: '9PM', openH: 12, closeH: 21 },
   { day: 'Monday',    label: 'Mon', open: '9AM',  close: '9PM', openH: 9,  closeH: 21 },
   { day: 'Tuesday',   label: 'Tue', open: '9AM',  close: '9PM', openH: 9,  closeH: 21 },
   { day: 'Wednesday', label: 'Wed', open: '9AM',  close: '9PM', openH: 9,  closeH: 21 },
   { day: 'Thursday',  label: 'Thu', open: '9AM',  close: '9PM', openH: 9,  closeH: 21 },
   { day: 'Friday',    label: 'Fri', open: '9AM',  close: '9PM', openH: 9,  closeH: 21 },
-  { day: 'Saturday',  label: 'Sat', open: '7AM',  close: '9PM', openH: 7,  closeH: 21 },
+  { day: 'Saturday',  label: 'Sat', open: '9AM',  close: '9PM', openH: 9,  closeH: 21 },
 ];
 
 /* ─── Helpers ───────────────────────────────────────────────────────────────── */
