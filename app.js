@@ -106,6 +106,32 @@ function init() {
     });
   }
 
+  /* In-app browser for Birrdi links */
+  const browser  = document.getElementById('inapp-browser');
+  const frame    = document.getElementById('inapp-frame');
+  const closeBtn = document.getElementById('inapp-close');
+
+  function openInApp(url) {
+    frame.src = url;
+    browser.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeInApp() {
+    browser.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(() => { frame.src = ''; }, 400);
+  }
+
+  document.querySelectorAll('[data-birrdi]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      openInApp(link.href);
+    });
+  });
+
+  closeBtn.addEventListener('click', closeInApp);
+
   /* Refresh open status every minute */
   setInterval(updateOpenStatus, 60_000);
 
