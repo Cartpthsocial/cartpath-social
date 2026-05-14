@@ -1,6 +1,5 @@
 'use strict';
 
-/* ─── Hours schedule (index 0 = Sunday … 6 = Saturday) ─────────────────────── */
 const SCHEDULE = [
   { day: 'Sunday',    label: 'Sun', open: '12PM', close: '9PM', openH: 12, closeH: 21 },
   { day: 'Monday',    label: 'Mon', open: '9AM',  close: '9PM', openH: 9,  closeH: 21 },
@@ -11,10 +10,7 @@ const SCHEDULE = [
   { day: 'Saturday',  label: 'Sat', open: '9AM',  close: '9PM', openH: 9,  closeH: 21 },
 ];
 
-/* ─── Helpers ───────────────────────────────────────────────────────────────── */
-function todayIndex() {
-  return new Date().getDay(); // 0 = Sun
-}
+function todayIndex() { return new Date().getDay(); }
 
 function isOpenNow() {
   const now = new Date();
@@ -23,31 +19,25 @@ function isOpenNow() {
   return mins >= openH * 60 && mins < closeH * 60;
 }
 
-/* ─── Navigation ────────────────────────────────────────────────────────────── */
 function navigateTo(screenId) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-
   const screen = document.getElementById('screen-' + screenId);
   const btn    = document.querySelector('.nav-btn[data-screen="' + screenId + '"]');
-
   if (screen) { screen.classList.add('active'); screen.scrollTop = 0; }
   if (btn)    { btn.classList.add('active'); }
 }
 
-/* ─── Open-status pill ──────────────────────────────────────────────────────── */
 function updateOpenStatus() {
   const pill = document.getElementById('open-pill');
   const text = document.getElementById('status-text');
   if (!pill || !text) return;
-
   const open = isOpenNow();
   pill.classList.toggle('is-open',   open);
   pill.classList.toggle('is-closed', !open);
   text.textContent = open ? 'Open Now' : 'Closed';
 }
 
-/* ─── Today's hours strip (home screen) ────────────────────────────────────── */
 function updateTodayStrip() {
   const el = document.getElementById('today-hours');
   if (!el) return;
@@ -55,25 +45,20 @@ function updateTodayStrip() {
   el.textContent = open + ' – ' + close;
 }
 
-/* ─── Hours table (hours screen) ───────────────────────────────────────────── */
 function renderHoursTable() {
   const container = document.getElementById('hours-table');
   if (!container) return;
-
   const today = todayIndex();
-
   container.innerHTML = SCHEDULE.map((row, i) => {
     const isToday = i === today;
     const badge = isToday ? '<span class="today-badge">Today</span>' : '';
-    return `
-      <div class="hours-row${isToday ? ' is-today' : ''}">
-        <span class="hours-day">${row.day}${badge}</span>
-        <span class="hours-time">${row.open} – ${row.close}</span>
-      </div>`;
+    return `<div class="hours-row${isToday ? ' is-today' : ''}">
+      <span class="hours-day">${row.day}${badge}</span>
+      <span class="hours-time">${row.open} – ${row.close}</span>
+    </div>`;
   }).join('');
 }
 
-/* ─── Service-worker registration ───────────────────────────────────────────── */
 function registerSW() {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
@@ -82,23 +67,19 @@ function registerSW() {
   }
 }
 
-/* ─── Init ──────────────────────────────────────────────────────────────────── */
 function init() {
   renderHoursTable();
   updateOpenStatus();
   updateTodayStrip();
 
-  /* Bottom nav */
   document.querySelectorAll('.nav-btn[data-screen]').forEach(btn => {
     btn.addEventListener('click', () => navigateTo(btn.dataset.screen));
   });
 
-  /* Home shortcut tiles */
   document.querySelectorAll('.tile[data-nav]').forEach(tile => {
     tile.addEventListener('click', () => navigateTo(tile.dataset.nav));
   });
 
-  /* Events tile → Instagram */
   const eventsTile = document.querySelector('.tile[data-events]');
   if (eventsTile) {
     eventsTile.addEventListener('click', () => {
@@ -106,9 +87,33 @@ function init() {
     });
   }
 
-  /* Refresh open status every minute */
-  setInterval(updateOpenStatus, 60_000);
+  /* In-app browser for Birrdi links */
+  const browser  = document.getElementById('inapp-browser');
+  const frame    = document.getElementById('inapp-frame');
+  const closeBtn = document.getElementById('inapp-close');
 
+  function openInApp(url) {
+    frame.src = url;
+    browser.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeInApp() {
+    browser.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(() => { frame.src = ''; }, 400);
+  }
+
+  document.querySelectorAll('[data-birrdi]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      openInApp(link.href);
+    });
+  });
+
+  closeBtn.addEventListener('click', closeInApp);
+
+  setInterval(updateOpenStatus, 60_000);
   registerSW();
 }
 
