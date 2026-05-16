@@ -330,6 +330,7 @@ svg { display: block; }
   min-height: 72px;
 }
 .byob-icon { font-size: 30px; flex-shrink: 0; }
+.byob-img  { width: 52px; height: 52px; object-fit: contain; flex-shrink: 0; }
 .byob-text { display: flex; flex-direction: column; gap: 3px; }
 .byob-text strong { font-size: 14px; color: var(--white); font-weight: 700; }
 .byob-text span   { font-size: 13px; color: rgba(255,255,255,.8); }
@@ -433,6 +434,8 @@ svg { display: block; }
   border-radius: var(--radius-md);
   flex-shrink: 0;
 }
+.perk-check { background: rgba(0,88,55,.1); }
+.perk-check svg { width: 20px; height: 20px; stroke: var(--green); }
 .perk-body { display: flex; flex-direction: column; gap: 3px; padding-top: 2px; }
 .perk-body strong { font-size: 15px; font-weight: 700; color: var(--dark); }
 .perk-body span   { font-size: 13px; color: var(--gray-text); }
