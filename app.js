@@ -106,6 +106,20 @@ function init() {
     });
   }
 
+  /* Contact Us tile → phone call */
+  document.querySelectorAll('.tile[data-tel]').forEach(tile => {
+    tile.addEventListener('click', () => {
+      window.location.href = 'tel:' + tile.dataset.tel;
+    });
+  });
+
+  /* Book nav tab → opens Birrdi in-app browser */
+  document.querySelectorAll('[data-birrdi-nav]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      openInApp(btn.dataset.birrdiUrl);
+    });
+  });
+
   /* In-app browser for Birrdi links */
   const browser  = document.getElementById('inapp-browser');
   const frame    = document.getElementById('inapp-frame');
