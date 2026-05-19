@@ -137,10 +137,10 @@ function init() {
     setTimeout(() => { frame.src = ''; }, 400);
   }
 
-  document.querySelectorAll('[data-birrdi]').forEach(link => {
-    link.addEventListener('click', e => {
+  document.querySelectorAll('[data-birrdi]').forEach(el => {
+    el.addEventListener('click', e => {
       e.preventDefault();
-      openInApp(link.href);
+      openInApp(el.dataset.birrdiUrl || el.href);
     });
   });
 

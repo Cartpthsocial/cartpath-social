@@ -320,6 +320,32 @@ svg { display: block; }
   color: var(--green);
 }
 
+/* My Reservations bar */
+.reservations-bar {
+  padding: 0 16px 12px;
+  background: var(--green);
+}
+.reservations-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: var(--radius-lg);
+  padding: 15px 20px;
+  color: var(--white);
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: .2px;
+  transition: background .18s, transform .14s;
+  -webkit-tap-highlight-color: transparent;
+}
+.reservations-btn:active { transform: scale(.97); background: rgba(255,255,255,.2); }
+.reservations-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+
 /* BYOB strip */
 .byob-strip {
   background: rgba(0,0,0,.25);
