@@ -2,14 +2,20 @@
   "name": "Cartpath Social",
   "short_name": "Cartpath",
   "description": "NWA Indoor Golf Simulator — Lowell, AR",
+  "id": "/",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "orientation": "portrait-primary",
   "theme_color": "#005837",
   "background_color": "#005837",
   "lang": "en-US",
+  "dir": "ltr",
   "categories": ["sports", "entertainment"],
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
   "icons": [
     {
       "src": "icons/icon-192.png",
