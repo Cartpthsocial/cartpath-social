@@ -1,4 +1,4 @@
-const CACHE = 'cartpath-v1';
+const CACHE = 'cartpath-v2';
 
 const PRECACHE = [
   '/',
@@ -6,7 +6,9 @@ const PRECACHE = [
   '/styles.css',
   '/app.js',
   '/manifest.json',
-  '/icons/icon.svg',
+  '/icons/icon-192.png',
+  '/icons/icon-512.png',
+  '/icons/logo.png',
 ];
 
 /* ─── Install: pre-cache all shell assets ───────────────────────────────────── */
@@ -27,7 +29,7 @@ self.addEventListener('activate', e => {
   self.clients.claim();
 });
 
-/* ─── Fetch: cache-first for local assets, network-only for externals ───────── */
+/* ─── Fetch: refresh documents, cache local static assets ───────────────────── */
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
 
@@ -35,6 +37,19 @@ self.addEventListener('fetch', e => {
 
   /* Pass through external requests (Birrdi, Google Maps, fonts, etc.) */
   if (url.origin !== self.location.origin) return;
+
+  if (e.request.mode === 'navigate') {
+    e.respondWith(
+      fetch(e.request).then(response => {
+        if (response && response.status === 200) {
+          const clone = response.clone();
+          caches.open(CACHE).then(cache => cache.put('/index.html', clone));
+        }
+        return response;
+      }).catch(() => caches.match('/index.html'))
+    );
+    return;
+  }
 
   e.respondWith(
     caches.match(e.request).then(cached => {

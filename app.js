@@ -67,6 +67,22 @@ function registerSW() {
   }
 }
 
+async function openExternalBrowser(url) {
+  if (!url) return;
+
+  const browserPlugin = window.Capacitor?.Plugins?.Browser;
+  if (browserPlugin?.open) {
+    try {
+      await browserPlugin.open({ url, presentationStyle: 'fullscreen' });
+      return;
+    } catch (error) {
+      console.warn('Could not open the native browser sheet; using a browser tab instead.', error);
+    }
+  }
+
+  window.open(url, '_blank', 'noopener,noreferrer');
+}
+
 function init() {
   renderHoursTable();
   updateOpenStatus();
@@ -94,38 +110,26 @@ function init() {
     });
   });
 
-  /* Book nav tab → opens Birrdi in-app browser */
+  /* Birrdi opens in an iOS Safari sheet (or a new browser tab on the web). */
   document.querySelectorAll('[data-birrdi-nav]').forEach(btn => {
     btn.addEventListener('click', () => {
-      openInApp(btn.dataset.birrdiUrl);
+      openExternalBrowser(btn.dataset.birrdiUrl);
     });
   });
-
-  /* In-app browser */
-  const browser  = document.getElementById('inapp-browser');
-  const frame    = document.getElementById('inapp-frame');
-  const closeBtn = document.getElementById('inapp-close');
-
-  function openInApp(url) {
-    frame.src = url;
-    browser.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeInApp() {
-    browser.classList.remove('open');
-    document.body.style.overflow = '';
-    setTimeout(() => { frame.src = ''; }, 400);
-  }
 
   document.querySelectorAll('[data-birrdi]').forEach(el => {
     el.addEventListener('click', e => {
       e.preventDefault();
-      openInApp(el.dataset.birrdiUrl || el.href);
+      openExternalBrowser(el.dataset.birrdiUrl || el.href);
     });
   });
 
-  closeBtn.addEventListener('click', closeInApp);
+  document.querySelectorAll('[data-birrdi-url]:not([data-birrdi-nav])').forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      openExternalBrowser(el.dataset.birrdiUrl);
+    });
+  });
 
   setInterval(updateOpenStatus, 60_000);
   registerSW();
